@@ -1,32 +1,30 @@
 name: Build EXE for Windows
-
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: "3.10"
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
+          pip install --upgrade pip
           pip install pyinstaller selenium undetected-chromedriver pynput requests
 
       - name: Build EXE
-        run: |
-          pyinstaller --noconsole --onefile temu_scraper_gui.py
+        run: pyinstaller --onefile temv_gui.py  # 确保脚本名正确
 
       - name: Upload EXE
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: Temu-Scraper-EXE
-          path: dist/temu_scraper_gui.exe
+          name: app.exe
+          path: dist/temv_gui.exe
